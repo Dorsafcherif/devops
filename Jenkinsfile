@@ -1,29 +1,18 @@
 pipeline {
     agent any
     stages {
-        stage('GIT') {
+        stage('Build') {
             steps {
-                git url: 'https://github.com/Dorsafcherif/devops', branch: 'dorsaf'
+                git 'https://github.com/Dorsafcherif/devops', branch: 'dorsaf'
+                sh 'mvn clean package'
             }
         }
-        stage('MVN CLEAN') {
-            steps {
-                sh 'mvn clean'
-            }
-        }
-        stage('MVN COMPILE') {
-            steps {
-                sh 'mvn compile'
-            }
-        }
-
- post {
+    }
+    post {
         failure {
-            mail to: 'adresse-email@domaine.com',
+            mail to: 'dorsaf.cherif@esprit.tn',
             subject: 'Construction échouée sur dorsaf',
             body: "La construction a échoué sur la branche dorsaf. Veuillez consulter les logs pour plus d'informations."
         }
     }
-
-       
 }
