@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('GIT') {
             steps {
-                git url: 'https://github.com/Emna123/backDevOps.git', branch: 'develop'
+                git url: 'https://github.com/Dorsafcherif/devops', branch: 'dorsaf'
             }
         }
         stage('MVN CLEAN') {
@@ -17,30 +17,13 @@ pipeline {
             }
         }
 
-        stage('MVN TEST') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-              always {
-                junit '**/target/surefire-reports/TEST-*.xml'
-              }
-            }
-
-        }
-        stage('MVN SONARQUEBE') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
-    }
-    post {
+ post {
         failure {
-            mail to: 'emna.bentijani@esprit.tn',
-            subject: 'Build failed',
-            body: 'The build has failed. Please check Jenkins for details.'
+            mail to: 'adresse-email@domaine.com',
+            subject: 'Construction échouée sur dorsaf',
+            body: "La construction a échoué sur la branche dorsaf. Veuillez consulter les logs pour plus d'informations."
         }
     }
+
+       
 }
