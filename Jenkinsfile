@@ -16,7 +16,8 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-        post {
+    }
+    post {
         failure {
             mail to: 'dorsaf.cherif@esprit.tn',
             subject: 'Build failed',
