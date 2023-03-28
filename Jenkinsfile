@@ -1,5 +1,4 @@
-pipeline {
-    agent any
+ agent any
 
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub')
@@ -14,14 +13,6 @@ pipeline {
         stage('Build application') {
             steps {
                 sh 'mvn clean package'
-            }
-        }
-        stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar'
-                    sh 'mvn sonar:sonar -Dsonar.host.url=http://localhost:9000'
-                }
             }
         }
         stage('Build Docker image') {
@@ -47,6 +38,13 @@ pipeline {
             steps {
                 sh 'docker-compose up -d'
             }
+        }
+    }
+    post {
+        failure {
+            mail to: 'dorsaf.cherif@esprit.tn',
+            subject: 'Build failed',
+            body: 'The build has failed. Please check Jenkins for details.'
         }
     }
 }
