@@ -13,11 +13,9 @@ pipeline {
         }
         stage('SonarQube analysis') {
             steps {
-                withMaven(maven: 'Maven') {
-                    sh 'mvn clean package sonar:sonar \
-                      -Dsonar.projectKey=devops \
-                      -Dsonar.host.url=http://localhost:9000 \
-                      -Dsonar.login=3dec70bee68fb129659d2838ba9dbeb44c6ffa9e'                      
+                withSonarQubeEnv('SonarQube') {
+                  sh 'sonar-scanner -Dsonar.projectKey=devops  -Dsonar.host.url=http://localhost:9000 -Dsonar.login=3dec70bee68fb129659d2838ba9dbeb44c6ffa9e'
+                     
                 }
             }
         }
