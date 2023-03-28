@@ -1,4 +1,5 @@
- agent any
+pipeline {
+    agent any
 
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub')
@@ -13,6 +14,13 @@
         stage('Build application') {
             steps {
                 sh 'mvn clean package'
+            }
+        }
+        stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar -Dsonar.host.url=http://localhost:9000'
+                }
             }
         }
         stage('Build Docker image') {
