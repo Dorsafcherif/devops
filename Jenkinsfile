@@ -49,11 +49,4 @@ pipeline {
             }
         }
     }
-    post {
-        failure {
-            mail to: 'dorsaf.cherif@esprit.tn',
-            subject: 'Build failed',
-            body: 'The build has failed. Please check Jenkins for details.'
-        }
-    }
 }
