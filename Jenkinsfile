@@ -16,6 +16,13 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+        stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar -Dsonar.host.url=http://<sonarqube_host>:9000'
+                }
+            }
+        }
         stage('Build Docker image') {
             steps {
                 script {
