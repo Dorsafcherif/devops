@@ -20,30 +20,13 @@ pipeline {
             steps {
                 sh 'mvn test'
             } 
-        stage('Build Docker image') {
-            steps {
-                script {
-                    dockerfile = '''
-                    FROM openjdk:11-jdk-alpine
-                    WORKDIR /app
-                    COPY target/tpAchatProject.jar /app/tpAchatProject.jar
-                    EXPOSE 8089
-                    CMD ["java", "-jar", "tpAchatProject.jar"]
-                    '''
-                    docker.withRegistry('', 'DOCKER_HUB_CREDENTIALS') {
-                        docker.build('tpAchatProject', dockerfile: dockerfile)
-                        docker.withRegistry('https://registry.docker.io', 'DOCKER_HUB_CREDENTIALS') {
-                            docker.image('tpAchatProject').push()
-                        }
-                    }
-                }
+         stage('Scan') {
+           steps {
+             withSonarQubeEnv(installationName: 'devopsBack') {
+               sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
+             }
             }
-        }
-        stage('Deploy application') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
+ 
         post {
             failure {
                 mail to: 'dorsaf.cherif@esprit.tn',
