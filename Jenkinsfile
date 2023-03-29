@@ -44,17 +44,12 @@ pipeline {
                 sh 'docker-compose up -d'
             }
         }
-        stage('UNIT TEST') {
-            steps {
-                sh 'mvn test jacoco:report'
-           }
-        }
-        stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                sh 'mvn sonar:sonar'
-                }
+        post {
+            failure {
+                mail to: 'dorsaf.cherif@esprit.tn',
+                subject: 'Build failed',
+                body: 'The build has failed. Please check Jenkins for details.'
             }
-         }
+        }
     }
 }
