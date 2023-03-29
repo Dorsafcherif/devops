@@ -6,19 +6,20 @@ pipeline {
                 git url: 'https://github.com/Dorsafcherif/devops', branch: 'dorsaf'
             }
         }
-        stage('Build application') {
+        stage('MVN CLEAN') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean'
             }
         }
-        stage('SonarQube analysis') {
+        stage('MVN COMPILE') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                  sh 'sonar-scanner -Dsonar.projectKey=devops  -Dsonar.host.url=http://localhost:9000 -Dsonar.login=3dec70bee68fb129659d2838ba9dbeb44c6ffa9e'
-                     
-                }
+                sh 'mvn compile'
             }
         }
+        stage('UNIT TEST'){
+            steps {
+                sh 'mvn test'
+            } 
         stage('Build Docker image') {
             steps {
                 script {
