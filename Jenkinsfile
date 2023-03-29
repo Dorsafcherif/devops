@@ -44,5 +44,17 @@ pipeline {
                 sh 'docker-compose up -d'
             }
         }
+        stage('UNIT TEST') {
+            steps {
+                sh 'mvn test jacoco:report'
+           }
+        }
+        stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                sh 'mvn sonar:sonar'
+                }
+            }
+         }
     }
 }
