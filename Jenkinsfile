@@ -28,25 +28,21 @@ pipeline {
                 }
             }
          }
-        stage("Publish to Nexus Repository Manager") {
+        stage("Upload Artifact Nexus") {
             steps {
                 nexusArtifactUploader(
                   nexusVersion: 'nexus3',
                   protocol: 'http',
-                  nexusUrl: '192.168.44.133:8081',
-                  groupId: 'pom.com.esprit.examen',
+                  nexusUrl: '192.168.44.133:8081/repository/mavenDevops/',
+                  groupId: 'com.esprit.examen',
                   version: 'pom.1.0',
                   repository: 'mavenDevops',
                   credentialsId: 'nexus',
                   artifacts: [
-                    [artifactId: 'pom.tpAchatProject',
-                     classifier: '',
-                     file: artifactPath,
-                     type: pom.packaging],
                      [artifactId: 'pom.tpAchatProject',
                      classifier: '',
-                     file: "pom.xml",
-                     type: "pom"]
+                     file: '/var/lib/jenkins/workspace/Spring IOC/target/tpAchatProject-1.0.jar',
+                     type: 'jar']
                             ]
                 )
              }
