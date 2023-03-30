@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+      DOCKERHUB_CREDENTIAL$ = credentials('docker-dockerhub')
+    }
     stages {
         stage('GIT') {
             steps {
@@ -30,12 +33,26 @@ pipeline {
          }
         stage('Build Docker Image') {
             steps {
-                script {
-                  sh 'docker build -t devopshint/tpachatproject-1.0 . '
-                }
+                  sh 'docker build -t docker/dp-alpine:latest .' 
             }
         }
+        stage('Login') {
+            steps {
+                  sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+           }
+       }
+       stage('Push') {
+           steps {
+                sh 'docker push docker/dp-alpine:latest .'
+      }
+    }
         
         
     }
+    post {
+      always {
+        sh 'docker logout'
+    }
+  }
+
 }
