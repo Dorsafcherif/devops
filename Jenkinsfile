@@ -28,25 +28,14 @@ pipeline {
                 }
             }
          }
-        stage("Upload Artifact Nexus") {
+        stage('Build Docker Image') {
             steps {
-                nexusArtifactUploader(
-                  nexusVersion: 'nexus3',
-                  protocol: 'http',
-                  nexusUrl: '192.168.44.133:8081/repository/mavenDevops/',
-                  groupId: 'com.esprit.examen',
-                  version: 'pom.1.0',
-                  repository: 'mavenDevops',
-                  credentialsId: 'nexus',
-                  artifacts: [
-                     [artifactId: 'pom.tpAchatProject',
-                     classifier: '',
-                     file: '/var/lib/jenkins/workspace/Spring IOC/target/tpAchatProject-1.0.jar',
-                     type: 'jar']
-                            ]
-                )
-             }
+                script {
+                  sh 'docker build -t devopshint/tpAchatProject-1.0 .'
+                }
             }
+        }
+        
         
     }
 }
