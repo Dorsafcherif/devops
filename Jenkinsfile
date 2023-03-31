@@ -27,6 +27,11 @@ pipeline {
                 sh 'mvn test'
             } 
         }
+        stage('MVN PACKAGE') {
+            steps {
+                sh 'mvn package'
+            }
+        }
         stage('ScanSonar') {
             steps {
                 withSonarQubeEnv(installationName: 'devopsBack') {
