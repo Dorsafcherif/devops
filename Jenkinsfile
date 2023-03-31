@@ -34,6 +34,27 @@ pipeline {
                 }
             }
          }
+        stage('Build Docker Image') {
+            steps {
+                  sh 'docker build -t docker/dp-alpine:latest .' 
+            }
+        }
+        stage('Login') {
+            steps {
+              sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+
+           }
+       }
+       stage('Push') {
+           steps {
+                sh 'docker push docker/dp-alpine:latest'
+      }
+    }
         
     }
+ post {
+    always {
+      sh 'docker logout'
+    }
+  }
 }
