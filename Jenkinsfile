@@ -38,12 +38,13 @@ pipeline {
         }
         stage('Login') {
             steps {
-                  sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh 'echo $DOCKERHUB_CREDENTIAL_USR | docker login -u $DOCKERHUB_CREDENTIAL_USR --password-stdin'
+
            }
        }
        stage('Push') {
            steps {
-                sh 'docker push docker/dp-alpine:latest .'
+                sh 'docker push docker/dp-alpine:latest'
       }
     }
         
