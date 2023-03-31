@@ -37,7 +37,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                   sh 'mvn package'   
-                  sh 'docker build -t docker/dp-alpine:latest --build-arg JAR_FILE=target/tpAchatProject-1.0.jar .'
+                  sh 'docker build -t docker/devops:latest --build-arg JAR_FILE=target/tpAchatProject-1.0.jar .'
             }
         }
         stage('Login') {
