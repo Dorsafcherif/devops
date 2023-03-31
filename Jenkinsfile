@@ -49,7 +49,7 @@ pipeline {
  
        stage('Push') {
            steps {
-                sh 'docker push docker/dp-alpine:latest'
+                sh 'docker push docker/devops:latest'
       }
     }
         
