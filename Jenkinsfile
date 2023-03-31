@@ -58,5 +58,10 @@ pipeline {
     always {
       sh 'docker logout'
     }
+ failure {
+            mail to: 'dorsaf.cherif@esprit.tn',
+                subject: 'Erreur dans le pipeline',
+                body: "Le pipeline  a échoué. Veuillez vérifier la source du pipeline."
+        }
   }
 }
