@@ -1,6 +1,12 @@
 pipeline {
     agent any
-    stages {
+    options {
+      buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('docker-dockerhub')
+  }
+   stages {
         stage('GIT') {
             steps {
                 git url: 'https://github.com/Dorsafcherif/devops', branch: 'dorsaf'
