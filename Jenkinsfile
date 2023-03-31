@@ -36,7 +36,7 @@ pipeline {
          }
         stage('Build Docker Image') {
             steps {
-                  sh 'echo Dorsaf123. | sudo -S docker build -t docker/dp-alpine:latest .' 
+                  sh 'docker build -t docker/dp-alpine:latest .' 
             }
         }
         stage('Login') {
