@@ -31,24 +31,6 @@ pipeline {
                 }
             }
          }
-        stage('Build Docker Image') {
-            steps {
-                  sh 'docker build -t docker/dp-alpine:latest .' 
-            }
-        }
-        stage('Login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                  sh "docker login -u $USERNAME -p $PASSWORD"
-                }
-           }
-       }
-       stage('Push') {
-           steps {
-                sh 'docker push docker/dp-alpine:latest'
-      }
-    }
-        
         
     }
 }
