@@ -36,7 +36,7 @@ pipeline {
          }
         stage('Build Docker Image') {
             steps {
-                  sh 'sudo docker build -t docker/dp-alpine:latest .' 
+                  sh 'echo devops | sudo -S docker build -t docker/dp-alpine:latest .' 
             }
         }
         stage('Login') {
